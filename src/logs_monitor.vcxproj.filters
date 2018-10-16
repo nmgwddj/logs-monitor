@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{79b67290-48f6-4419-b9be-f9b20fb028ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{8d384628-80c3-4b8f-a161-e2bc8d6486a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{66a331e5-30ab-4ed9-8c7f-18dcfa9e142e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\util">
+      <UniqueIdentifier>{d8a8832a-22da-48a0-9e2c-79afd0d4080c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\main_form">
+      <UniqueIdentifier>{155d52ce-18e9-4c63-84d2-57fc02474b7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\file_manager">
+      <UniqueIdentifier>{5840bbc6-a4e8-49e8-8fd6-353e7133f822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\main_form\log_file_list">
+      <UniqueIdentifier>{06ec2490-9009-44a8-b185-0b6eb1277e1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="app_dump.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="module\util\window_ex.h">
+      <Filter>module\util</Filter>
+    </ClInclude>
+    <ClInclude Include="module\util\windows_manager.h">
+      <Filter>module\util</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\main_form\main_form.h">
+      <Filter>gui\main_form</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="module\file_manager\file_instance.h">
+      <Filter>module\file_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\main_form\log_file_list\log_file_item.h">
+      <Filter>gui\main_form\log_file_list</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="module\util\window_ex.cpp">
+      <Filter>module\util</Filter>
+    </ClCompile>
+    <ClCompile Include="module\util\windows_manager.cpp">
+      <Filter>module\util</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\main_form\main_form.cpp">
+      <Filter>gui\main_form</Filter>
+    </ClCompile>
+    <ClCompile Include="module\file_manager\file_instance.cpp">
+      <Filter>module\file_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\main_form\log_file_list\log_file_item.cpp">
+      <Filter>gui\main_form\log_file_list</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="logs_monitor.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="logs_monitor.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

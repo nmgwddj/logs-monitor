@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+    <ListContainerElement class="listitem" name="log_file_item" padding="8,8,8,8" height="auto">
+		<BubbledEvent type="mouseenter" receiver="./open_file ./open_folder ./clear ./delete" applyattribute="visible=&quot;true&quot;" />
+		<BubbledEvent type="mouseleave" receiver="./open_file ./open_folder ./clear ./delete" applyattribute="visible=&quot;false&quot;" />
+		<VBox width="stretch" height="auto" mouse="false">
+			<HBox width="stretch" height="20" margin="0,0,0,5" mouse="false">
+				<Label name="file_name" width="stretch" font="2" normaltextcolor="darkcolor" mouse="false" valign="center" />
+				<Button name="open_file" width="20" height="20" valign="center" visible="false" tooltiptext="打开文件" 
+					forenormalimage="open_file_normal.png" 
+					hotimage="../public/button/icon_hover.png" 
+					pushedimage="../public/button/icon_pushed.png"
+					disabledimage="open_file_normal.png" />
+				<Button name="open_folder" width="20" height="20" valign="center" visible="false" tooltiptext="打开文件所在目录" 
+					forenormalimage="open_folder_normal.png" 
+					hotimage="../public/button/icon_hover.png" 
+					pushedimage="../public/button/icon_pushed.png"
+					disabledimage="open_folder_normal.png" />
+				<Button name="clear" width="auto" height="auto" valign="center" visible="false" tooltiptext="清空文件" 
+					normalimage="../public/button/btn_refresh_normal.png" 
+					hotimage="../public/button/btn_refresh_hovered.png" 
+					pushedimage="../public/button/btn_refresh_pushed.png"
+					disabledimage="../public/button/btn_refresh_disabled.png" />
+				<Button name="delete" width="auto" height="auto" valign="center" visible="false" tooltiptext="从列表移除" 
+					normalimage="../public/button/btn_recycle_normal.png" 
+					hotimage="../public/button/btn_recycle_hovered.png" 
+					pushedimage="../public/button/btn_recycle_pushed.png"
+					disabledimage="../public/button/btn_recycle_disabled.png" />
+			</HBox>
+			<Label name="file_path" font="1" normaltextcolor="link_gray" mouse="false" />
+		</VBox>
+	</ListContainerElement>
+</Window>

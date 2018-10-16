@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="base">
+      <UniqueIdentifier>{948331e3-5858-4751-abd7-5ad6123bb0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="curl">
+      <UniqueIdentifier>{9bf4f67f-3f26-4020-9a17-d498852519fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="http">
+      <UniqueIdentifier>{e403b94d-bcce-48f8-89c8-e1bd0ad64bda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="export">
+      <UniqueIdentifier>{16dfae2e-42c1-453f-841f-e36df5f26eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{d2ecc0ee-b215-4536-9d62-cc72cd6735b8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="curl\curl_network_session.h">
+      <Filter>curl</Filter>
+    </ClInclude>
+    <ClInclude Include="base\completion_callback.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\proxy.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\net_error_list.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\net_errors.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="curl\curl_network_session_manager.h">
+      <Filter>curl</Filter>
+    </ClInclude>
+    <ClInclude Include="base\io_buffer.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\ip_endpoint.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\net_util.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\address_list.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="http\curl_http_request_base.h">
+      <Filter>http</Filter>
+    </ClInclude>
+    <ClInclude Include="http\curl_http_request.h">
+      <Filter>http</Filter>
+    </ClInclude>
+    <ClInclude Include="curl\curl_network_session_manager_uv.h">
+      <Filter>curl</Filter>
+    </ClInclude>
+    <ClInclude Include="curl\http_trans_thread.h">
+      <Filter>curl</Filter>
+    </ClInclude>
+    <ClInclude Include="curl\libuv_message_loop.h">
+      <Filter>curl</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="export\nim_tools_http.h">
+      <Filter>export</Filter>
+    </ClInclude>
+    <ClInclude Include="log\log.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="log\global_misc_thread.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="export\nim_tools_http_def.h">
+      <Filter>export</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="curl\curl_network_session.cpp">
+      <Filter>curl</Filter>
+    </ClCompile>
+    <ClCompile Include="base\net_errors.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\io_buffer.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\ip_endpoint.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\net_util.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\address_list.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="http\curl_http_request_base.cpp">
+      <Filter>http</Filter>
+    </ClCompile>
+    <ClCompile Include="http\curl_http_request.cpp">
+      <Filter>http</Filter>
+    </ClCompile>
+    <ClCompile Include="curl\curl_network_session_manager_uv.cpp">
+      <Filter>curl</Filter>
+    </ClCompile>
+    <ClCompile Include="curl\http_trans_thread.cpp">
+      <Filter>curl</Filter>
+    </ClCompile>
+    <ClCompile Include="curl\libuv_message_loop.cpp">
+      <Filter>curl</Filter>
+    </ClCompile>
+    <ClCompile Include="export\nim_tools_http.cpp">
+      <Filter>export</Filter>
+    </ClCompile>
+    <ClCompile Include="log\log.cpp">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="log\global_misc_thread.cpp">
+      <Filter>log</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="net.rc" />
+  </ItemGroup>
+</Project>

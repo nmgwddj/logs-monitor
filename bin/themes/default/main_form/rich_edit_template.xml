@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+    <RichEdit class="prompt" name="log_edit" bkcolor="bk_gray" width="stretch" height="stretch" font="1" multiline="true" vscrollbar="true" hscrollbar="true" autovscroll="true" readonly="true" 
+		normaltextcolor="darkcolor" padding="5,5,5,5" wantreturnmsg="true" rich="true"/>
+</Window>
