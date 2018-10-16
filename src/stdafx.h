@@ -58,5 +58,6 @@
 // helper
 #include "shared/closure.h"
 
-#define  APP_DATA_DIR  L"logs_monitor\\"
+// app folder
+#define  APP_DATA_DIR  L"LogsMonitor\\"
 

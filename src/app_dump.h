@@ -3,7 +3,6 @@
 #include <DbgHelp.h>
 
 static const std::wstring kCmdAppCrash = L"AppCrash";
-bool g_need_restart_after_dump = false;
 
 BOOL CALLBACK MyMiniDumpCallback(PVOID, const PMINIDUMP_CALLBACK_INPUT input, PMINIDUMP_CALLBACK_OUTPUT output)
 {
@@ -65,11 +64,8 @@ LONG WINAPI MyUnhandledExceptionFilter(EXCEPTION_POINTERS* exp)
 
 	WriteDump(exp, dir);
 
-	if (g_need_restart_after_dump)
-	{
-		std::wstring cmd = nbase::StringPrintf(L" /%s %s ", kCmdAppCrash.c_str(), dir.c_str());
-		QCommand::RestartApp(cmd);
-	}
+	std::wstring cmd = nbase::StringPrintf(L" /%s %s ", kCmdAppCrash.c_str(), dir.c_str());
+	QCommand::RestartApp(cmd);
 
 	return EXCEPTION_EXECUTE_HANDLER;
 }
