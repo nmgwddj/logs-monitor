@@ -167,6 +167,26 @@ bool MainForm::OnClicked(EventArgs* msg)
 		file_dlg->SetParentWnd(this->GetHWND());
 		file_dlg->AyncShowOpenFileDlg(cb);
 	}
+	else if (name == L"btn_refresh_all")
+	{
+		for (auto capture_file_info : capture_file_list_)
+		{
+			capture_file_info.second->file_instance_->ClearFile();
+			capture_file_info.second->rich_edit_->SetText(L"");
+		}
+	}
+	else if (name == L"btn_remove_all")
+	{
+		for (auto capture_file_info : capture_file_list_)
+		{
+			// 从列表界面中删除
+			capture_file_info.second->file_instance_->StopCapture();
+			capture_file_info.second->rich_edit_->SetText(L"");
+			capture_file_info.second->rich_edit_->SetVisible(false);
+		}
+		capture_file_list_.clear();
+		list_logs_->RemoveAll();
+	}
 	else if (name == L"btn_hide_loglist")
 	{
 		box_side_bar_->SetVisible(false);
