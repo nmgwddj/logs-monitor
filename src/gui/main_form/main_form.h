@@ -29,8 +29,8 @@ public:
     static const LPCTSTR kSkinFolder;
     static const LPCTSTR kSkinFile;
 
-	static const LPCSTR kFindString;
-	static const LPCSTR kReplaceString;
+	static const LPCTSTR kFindString;
+	static const LPCTSTR kReplaceString;
 
 public:
     virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) override;
@@ -40,7 +40,7 @@ public:
 
 private:
 	void OnFileSelected(BOOL result, std::wstring file_path);
-	void OnLogFileChanged(const std::string& log_file, const std::string& data);
+	void OnLogFileChanged(const std::wstring& log_file, const std::string& data, bool append = true);
 
 private:
     bool Notify(EventArgs* msg);

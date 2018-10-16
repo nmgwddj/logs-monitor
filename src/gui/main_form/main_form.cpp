@@ -11,8 +11,8 @@ const LPCTSTR MainForm::kClassName = _T("main_form");
 const LPCTSTR MainForm::kSkinFolder = _T("main_form");
 const LPCTSTR MainForm::kSkinFile = _T("main_form.xml");
 
-const LPCSTR MainForm::kFindString = "\r\r";
-const LPCSTR MainForm::kReplaceString = "\r";
+const LPCTSTR MainForm::kFindString = L"\r\r";
+const LPCTSTR MainForm::kReplaceString = L"\r";
 
 MainForm::MainForm()
 {
@@ -123,22 +123,34 @@ void MainForm::OnFileSelected(BOOL result, std::wstring file_path)
 
 		// 开始捕获文件变更
 		capture_file_info->file_instance_->StartCapture(nbase::Bind(&MainForm::OnLogFileChanged, this,
-			std::placeholders::_1, std::placeholders::_2));
+			std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 		capture_file_list_[file_path] = capture_file_info;
 	}
 }
 
-void MainForm::OnLogFileChanged(const std::string& log_file, const std::string& data)
+void MainForm::OnLogFileChanged(const std::wstring& log_file, const std::string& data, bool append/* = true*/)
 {
-	auto capture_file_info = capture_file_list_.find(nbase::UTF8ToUTF16(log_file));
+	auto capture_file_info = capture_file_list_.find(log_file);
 	if (capture_file_info != capture_file_list_.end())
 	{
 		auto rich_edit = capture_file_info->second->rich_edit_;
-		// if (!rich_edit->IsVisible()) return;
-		std::string replace_data = data;
-		nbase::StringReplaceAll(kFindString, kReplaceString, replace_data);
-		rich_edit->AppendText(nbase::UTF8ToUTF16(replace_data));
+
+		// Convert MBCS to UTF8
+		std::wstring utf8_str;
+		ui::StringHelper::MBCSToUnicode(data, utf8_str, CP_UTF8);
+
+		// Replace \r\r to\r
+		nbase::StringReplaceAll(kFindString, kReplaceString, utf8_str);
+
+		if (append)
+		{
+			rich_edit->AppendText(utf8_str);
+		}
+		else
+		{
+			rich_edit->SetText(utf8_str);
+		}
 		rich_edit->EndDown();
 	}
 }

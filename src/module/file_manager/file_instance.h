@@ -2,7 +2,7 @@
 #include <thread>
 #include "base/callback/callback.h"
 
-typedef std::function<void(const std::string&, const std::string&)> FileChangedCallback;
+typedef std::function<void(const std::wstring&, const std::string&, bool)> FileChangedCallback;
 typedef std::shared_ptr<std::thread> SharedPtrThread;
 
 class FileInstance : public nbase::SupportWeakCallback

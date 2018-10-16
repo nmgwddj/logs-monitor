@@ -58,7 +58,8 @@ void FileInstance::CaptureFileThread()
 		if (!file_first_load_ && !stop_capture_)
 		{
 			// 等待文件大小变更的事件
-			if (WaitForSingleObject(handle, INFINITE) == WAIT_OBJECT_0)
+			DWORD wait = WaitForSingleObject(handle, INFINITE);
+			if (wait == WAIT_OBJECT_0)
 			{
 				if (!FindNextChangeNotification(handle))
 				{
@@ -122,9 +123,11 @@ void FileInstance::CaptureFileThread()
 		DWORD  read_bytes = 0;
 		if (ReadFile(file_handle, buffer.get(), trunk_file_size, &read_bytes, NULL))
 		{
+			QLOG_APP(L"File {0} changed, current file size = {1}, last file size = {2}") 
+				<< file_.c_str() << curr_file_size_ << last_file_size_;
 			// 回调到上层 UI
 			Post2UI(ToWeakCallback([this, buffer]() {
-				file_changed_callback_(nbase::UTF16ToUTF8(file_), (PCHAR)buffer.get());
+				file_changed_callback_(file_, (PCHAR)buffer.get(), curr_file_size_ >= last_file_size_);
 			}));
 			// 记录最后读取文件的位置
 			last_file_size_ = curr_file_size_;
