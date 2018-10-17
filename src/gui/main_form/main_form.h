@@ -53,7 +53,7 @@ private:
 	RichEdit*		rich_edit_;
 	Button*			btn_hide_loglist_;
 	Button*			btn_show_loglist_;
-	HBox*			box_container_;
+	Box*			box_container_;
 	Box*			box_side_bar_;
 
 	CaptureFileList	capture_file_list_;

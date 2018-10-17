@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Window>
-    <ListContainerElement class="listitem" name="log_file_item" padding="8,8,8,8" height="auto">
+	<ListContainerElement class="listitem" name="log_file_item" padding="8,8,8,8" height="auto">
 		<BubbledEvent type="mouseenter" receiver="./open_file ./open_folder ./clear ./delete" applyattribute="visible=&quot;true&quot;" />
 		<BubbledEvent type="mouseleave" receiver="./open_file ./open_folder ./clear ./delete" applyattribute="visible=&quot;false&quot;" />
 		<VBox width="stretch" height="auto" mouse="false">

@@ -73,7 +73,7 @@ void MainForm::InitWindow()
 	box_side_bar_		= dynamic_cast<Box*>(FindControl(L"box_side_bar"));
 	list_logs_			= dynamic_cast<ListBox*>(FindControl(L"list_logs"));
 	rich_edit_			= dynamic_cast<RichEdit*>(FindControl(L"log_edit"));
-	box_container_		= dynamic_cast<HBox*>(FindControl(L"box_container"));
+	box_container_		= dynamic_cast<Box*>(FindControl(L"box_container"));
 
 	btn_hide_loglist_	= dynamic_cast<Button*>(FindControl(L"btn_hide_loglist"));
 	btn_show_loglist_	= dynamic_cast<Button*>(FindControl(L"btn_show_loglist"));
@@ -181,11 +181,18 @@ bool MainForm::OnClicked(EventArgs* msg)
 	}
 	else if (name == L"btn_refresh_all")
 	{
-		for (auto capture_file_info : capture_file_list_)
-		{
-			capture_file_info.second->file_instance_->ClearFile();
-			capture_file_info.second->rich_edit_->SetText(L"");
-		}
+		auto closure = [this](MsgBoxRet ret) {
+			if (ret == MB_YES)
+			{
+				for (auto capture_file_info : capture_file_list_)
+				{
+					capture_file_info.second->file_instance_->ClearFile();
+					capture_file_info.second->rich_edit_->SetText(L"");
+				}
+			}
+		};
+		ShowMsgBox(GetHWND(), closure, L"你确定要清空所有监控文件吗？", false, 
+			L"提示", false, L"确定", false, L"取消", false);
 	}
 	else if (name == L"btn_remove_all")
 	{
