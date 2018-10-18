@@ -8,4 +8,4 @@
   
 ## Preview
 
-  ![Preview](example.gif)
+  ![Preview](logs_monitor.gif)
