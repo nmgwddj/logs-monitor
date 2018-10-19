@@ -12,9 +12,9 @@ LogFileItem::~LogFileItem()
 
 }
 
-void LogFileItem::InitControl(const std::wstring& file_path, std::shared_ptr<CaptureFileInfo> capture_file_info, ListBox* log_file_list)
+void LogFileItem::InitControl(const std::wstring& file_path, LogFileSessionBox* log_file_session_box, ListBox* log_file_list)
 {
-	capture_file_info_ = capture_file_info;
+	log_file_session_box_ = log_file_session_box;
 	file_list_box_ = log_file_list;
 	file_path_ = file_path;
 
@@ -47,13 +47,12 @@ void LogFileItem::InitControl(const std::wstring& file_path, std::shared_ptr<Cap
 
 void LogFileItem::ShowRichEdit(bool is_show/* = true*/)
 {
-	capture_file_info_->rich_edit_->SetVisible(is_show);
+	log_file_session_box_->SetVisible(is_show);
 }
 
 bool LogFileItem::OnClearFile(EventArgs* msg)
 {
-	capture_file_info_->file_instance_->ClearFile();
-	capture_file_info_->rich_edit_->SetText(L"");
+	log_file_session_box_->Clear();
 	return true;
 }
 
@@ -64,9 +63,8 @@ bool LogFileItem::OnRemoveItem(EventArgs* msg)
 	main_form->RemoveTrackFile(this->GetDataID());
 
 	// 从列表界面中删除
-	capture_file_info_->file_instance_->StopCapture();
-	capture_file_info_->rich_edit_->SetText(L"");
-	capture_file_info_->rich_edit_->SetVisible(false);
+	log_file_session_box_->StopCapture();
+	log_file_session_box_->SetVisible(false);
 	file_list_box_->Remove(this);
 
 	// 如果有其他文件则显示其他文件的 richedit

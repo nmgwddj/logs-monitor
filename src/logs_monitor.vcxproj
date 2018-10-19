@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="app_dump.h" />
     <ClInclude Include="gui\main_form\log_file_list\log_file_item.h" />
+    <ClInclude Include="gui\main_form\log_file_session_box\log_file_session_box.h" />
     <ClInclude Include="gui\main_form\main_form.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="module\file_manager\file_instance.h" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gui\main_form\log_file_list\log_file_item.cpp" />
+    <ClCompile Include="gui\main_form\log_file_session_box\log_file_session_box.cpp" />
     <ClCompile Include="gui\main_form\main_form.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="module\file_manager\file_instance.cpp" />

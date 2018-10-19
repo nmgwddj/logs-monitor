@@ -11,9 +11,6 @@ const LPCTSTR MainForm::kClassName = _T("main_form");
 const LPCTSTR MainForm::kSkinFolder = _T("main_form");
 const LPCTSTR MainForm::kSkinFile = _T("main_form.xml");
 
-const LPCTSTR MainForm::kFindString = L"\r\r";
-const LPCTSTR MainForm::kReplaceString = L"\r";
-
 MainForm::MainForm()
 {
 }
@@ -94,102 +91,35 @@ void MainForm::OnFileSelected(BOOL result, std::wstring file_path)
 	if (result)
 	{
 		// 检查文件是否已经存在
-		auto capture_file_iter = capture_file_list_.find(file_path);
-		if (capture_file_iter != capture_file_list_.end())
+		auto capture_file = capture_file_list_.find(file_path);
+		if (capture_file != capture_file_list_.end())
 		{
 			ShowMsgBox(GetHWND(), nullptr, L"这个文件已经在监控列表中了", false, L"提示", false, L"确定", false, L"", false);
 			return;
 		}
 
-		// 给新添加的文件创建相关成员
-		std::shared_ptr<CaptureFileInfo> capture_file_info(new CaptureFileInfo);
-		capture_file_info->file_instance_.reset(new FileInstance(file_path.c_str()));
-		capture_file_info->rich_edit_ = new RichEdit;
-		ui::GlobalManager::FillBoxWithCache(capture_file_info->rich_edit_, L"main_form/rich_edit_template.xml");
+		LogFileSessionBox* log_file_session_box = new LogFileSessionBox;
+		ui::GlobalManager::FillBoxWithCache(log_file_session_box, L"main_form/log_file_session_box.xml");
+
+		log_file_session_box->InitControl(file_path, list_logs_);
 
 		// 将原来列表中所有监控的 richedit 都设置为隐藏
 		for (auto capture_file_info : capture_file_list_)
 		{
-			capture_file_info.second->rich_edit_->SetVisible(false);
+			capture_file_info.second->SetVisible(false);
 		}
 
 		// 将新添加进来的 richedit 添加到布局中并显示
-		box_container_->Add(capture_file_info->rich_edit_);
+		box_container_->Add(log_file_session_box);
 
 		// 新建一个列表项
 		LogFileItem* item = new LogFileItem;
-		item->InitControl(file_path, capture_file_info, list_logs_);
+		item->InitControl(file_path, log_file_session_box, list_logs_);
 
 		// 开始捕获文件变更
-		capture_file_info->file_instance_->StartCapture(nbase::Bind(&MainForm::OnLogFileChanged, this,
-			std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		log_file_session_box->StartCapture();
 
-		capture_file_list_[file_path] = capture_file_info;
-	}
-}
-
-void MainForm::OnLogFileChanged(const std::wstring& log_file, const std::string& data, bool append/* = true*/)
-{
-	auto capture_file_info = capture_file_list_.find(log_file);
-	if (capture_file_info != capture_file_list_.cend())
-	{
-		auto rich_edit = capture_file_info->second->rich_edit_;
-
-		// Convert MBCS to UTF8
-		std::wstring utf8_str;
-		ui::StringHelper::MBCSToUnicode(data, utf8_str, CP_UTF8);
-
-		// Replace \r\r to \r
-		nbase::StringReplaceAll(kFindString, kReplaceString, utf8_str);
-
-		// 先记录所有关键字的位置
-		std::map<int, KeywordInfo> keywords_pos;
-		for (auto keyword : capture_file_info->second->keywords_filter_)
-		{
-			std::size_t begin = 0;
-			while (begin < utf8_str.length())
-			{
-				std::size_t pos = utf8_str.find(keyword.GetKeyword(), begin);
-				if (std::string::npos != pos)
-				{
-					// 发现关键字
-					std::wstring normal_text = utf8_str.substr(begin, pos - begin);
-					std::wstring color_text = utf8_str.substr(pos, keyword.GetKeyword().length());
-
-					// 记录关键字位置和要截取的关键字长度，插入到 map 中
-					keywords_pos[pos] = keyword;
-					begin = pos + keyword.GetKeyword().length();
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-
-		// 遍历关键字位置列表，对需要着色的文字拆分进行插入
-		size_t last_keyword_pos = 0;
-		for (auto keyword_pos : keywords_pos)
-		{
-			auto begin = keyword_pos.first;
-			auto length = keyword_pos.second.GetKeyword().length();
-
-			std::wstring normal_text = utf8_str.substr(last_keyword_pos, begin - last_keyword_pos);
-			std::wstring color_text = utf8_str.substr(begin, length);
-
-			rich_edit->AppendText(normal_text);
-			rich_edit->AddColorText(color_text, L"link_blue");
-
-			last_keyword_pos = begin + length;
-		}
-
-		// 将遍历关键字后剩余的文字追加到界面中
-		if (last_keyword_pos < utf8_str.length())
-		{
-			rich_edit->AppendText(utf8_str.substr(last_keyword_pos, utf8_str.length()));
-		}
-
-		rich_edit->EndDown();
+		capture_file_list_[file_path] = log_file_session_box;
 	}
 }
 
@@ -224,8 +154,7 @@ bool MainForm::OnClicked(EventArgs* msg)
 			{
 				for (auto capture_file_info : capture_file_list_)
 				{
-					capture_file_info.second->file_instance_->ClearFile();
-					capture_file_info.second->rich_edit_->SetText(L"");
+					capture_file_info.second->Clear();
 				}
 			}
 		};
@@ -237,9 +166,8 @@ bool MainForm::OnClicked(EventArgs* msg)
 		for (auto capture_file_info : capture_file_list_)
 		{
 			// 从列表界面中删除
-			capture_file_info.second->file_instance_->StopCapture();
-			capture_file_info.second->rich_edit_->SetText(L"");
-			capture_file_info.second->rich_edit_->SetVisible(false);
+			capture_file_info.second->StopCapture();
+			capture_file_info.second->SetVisible(false);
 		}
 		capture_file_list_.clear();
 		list_logs_->RemoveAll();
@@ -269,12 +197,12 @@ bool MainForm::OnSelChanged(EventArgs* msg)
 		{
 			if (capture_file_info.first == item_data)
 			{
-				capture_file_info.second->rich_edit_->SetVisible(true);
-				capture_file_info.second->rich_edit_->EndDown();
+				capture_file_info.second->SetVisible(true);
+				// capture_file_info.second->log_file_session_box_->EndDown();
 			}
 			else
 			{
-				capture_file_info.second->rich_edit_->SetVisible(false);
+				capture_file_info.second->SetVisible(false);
 			}
 		}
 	}

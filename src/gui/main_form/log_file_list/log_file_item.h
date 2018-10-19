@@ -1,5 +1,6 @@
 #pragma once
 #include "gui/main_form/main_form.h"
+#include "gui/main_form/log_file_session_box/log_file_session_box.h"
 
 using namespace ui;
 
@@ -11,7 +12,7 @@ public:
 	LogFileItem();
 	~LogFileItem();
 
-	void InitControl(const std::wstring& file_path, std::shared_ptr<CaptureFileInfo> capture_file_info, ListBox* log_file_list);
+	void InitControl(const std::wstring& file_path, LogFileSessionBox* log_file_session_box, ListBox* log_file_list);
 	void ShowRichEdit(bool is_show = true);
 
 private:
@@ -21,7 +22,7 @@ private:
 	bool OnOpenFolder(EventArgs* msg);
 
 private:
-	std::shared_ptr<CaptureFileInfo> capture_file_info_;
-	ListBox*						 file_list_box_;
-	std::wstring					 file_path_;
+	LogFileSessionBox*				log_file_session_box_;
+	ListBox*						file_list_box_;
+	std::wstring					file_path_;
 };

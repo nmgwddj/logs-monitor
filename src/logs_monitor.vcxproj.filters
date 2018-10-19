@@ -30,6 +30,9 @@
     <Filter Include="gui\main_form\log_file_list">
       <UniqueIdentifier>{06ec2490-9009-44a8-b185-0b6eb1277e1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gui\main_form\log_file_session_box">
+      <UniqueIdentifier>{4d0b3836-681b-4e61-acba-c4e1d0364e8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -62,6 +65,9 @@
     <ClInclude Include="gui\main_form\log_file_list\log_file_item.h">
       <Filter>gui\main_form\log_file_list</Filter>
     </ClInclude>
+    <ClInclude Include="gui\main_form\log_file_session_box\log_file_session_box.h">
+      <Filter>gui\main_form\log_file_session_box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,6 +90,9 @@
     </ClCompile>
     <ClCompile Include="gui\main_form\log_file_list\log_file_item.cpp">
       <Filter>gui\main_form\log_file_list</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\main_form\log_file_session_box\log_file_session_box.cpp">
+      <Filter>gui\main_form\log_file_session_box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
