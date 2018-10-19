@@ -72,7 +72,6 @@ void MainForm::InitWindow()
 
 	box_side_bar_		= dynamic_cast<Box*>(FindControl(L"box_side_bar"));
 	list_logs_			= dynamic_cast<ListBox*>(FindControl(L"list_logs"));
-	rich_edit_			= dynamic_cast<RichEdit*>(FindControl(L"log_edit"));
 	box_container_		= dynamic_cast<Box*>(FindControl(L"box_container"));
 
 	btn_hide_loglist_	= dynamic_cast<Button*>(FindControl(L"btn_hide_loglist"));
@@ -132,7 +131,7 @@ void MainForm::OnFileSelected(BOOL result, std::wstring file_path)
 void MainForm::OnLogFileChanged(const std::wstring& log_file, const std::string& data, bool append/* = true*/)
 {
 	auto capture_file_info = capture_file_list_.find(log_file);
-	if (capture_file_info != capture_file_list_.end())
+	if (capture_file_info != capture_file_list_.cend())
 	{
 		auto rich_edit = capture_file_info->second->rich_edit_;
 
@@ -140,17 +139,56 @@ void MainForm::OnLogFileChanged(const std::wstring& log_file, const std::string&
 		std::wstring utf8_str;
 		ui::StringHelper::MBCSToUnicode(data, utf8_str, CP_UTF8);
 
-		// Replace \r\r to\r
+		// Replace \r\r to \r
 		nbase::StringReplaceAll(kFindString, kReplaceString, utf8_str);
 
-		if (append)
+		// 先记录所有关键字的位置
+		std::map<int, KeywordInfo> keywords_pos;
+		for (auto keyword : capture_file_info->second->keywords_filter_)
 		{
-			rich_edit->AppendText(utf8_str);
+			std::size_t begin = 0;
+			while (begin < utf8_str.length())
+			{
+				std::size_t pos = utf8_str.find(keyword.GetKeyword(), begin);
+				if (std::string::npos != pos)
+				{
+					// 发现关键字
+					std::wstring normal_text = utf8_str.substr(begin, pos - begin);
+					std::wstring color_text = utf8_str.substr(pos, keyword.GetKeyword().length());
+
+					// 记录关键字位置和要截取的关键字长度，插入到 map 中
+					keywords_pos[pos] = keyword;
+					begin = pos + keyword.GetKeyword().length();
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
-		else
+
+		// 遍历关键字位置列表，对需要着色的文字拆分进行插入
+		size_t last_keyword_pos = 0;
+		for (auto keyword_pos : keywords_pos)
 		{
-			rich_edit->SetText(utf8_str);
+			auto begin = keyword_pos.first;
+			auto length = keyword_pos.second.GetKeyword().length();
+
+			std::wstring normal_text = utf8_str.substr(last_keyword_pos, begin - last_keyword_pos);
+			std::wstring color_text = utf8_str.substr(begin, length);
+
+			rich_edit->AppendText(normal_text);
+			rich_edit->AddColorText(color_text, L"link_blue");
+
+			last_keyword_pos = begin + length;
 		}
+
+		// 将遍历关键字后剩余的文字追加到界面中
+		if (last_keyword_pos < utf8_str.length())
+		{
+			rich_edit->AppendText(utf8_str.substr(last_keyword_pos, utf8_str.length()));
+		}
+
 		rich_edit->EndDown();
 	}
 }
