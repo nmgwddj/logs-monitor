@@ -20,7 +20,7 @@ void LogFileSessionBox::InitControl(const std::wstring& file_path, ListBox* log_
 
 	this->AttachBubbledEvent(kEventClick, nbase::Bind(&LogFileSessionBox::OnClicked, this, std::placeholders::_1));
 
-	keyword_list_	= dynamic_cast<ListBox*>(FindSubControl(L"keywords_list"));
+	keyword_list_	= dynamic_cast<ListBox*>(FindSubControl(L"keyword_list"));
 	keyword_input_	= dynamic_cast<RichEdit*>(FindSubControl(L"keyword_input"));
 	keyword_add_	= dynamic_cast<Button*>(FindSubControl(L"keyword_add"));
 	log_content_	= dynamic_cast<RichEdit*>(FindSubControl(L"log_content"));
@@ -43,6 +43,11 @@ void LogFileSessionBox::StartCapture()
 void LogFileSessionBox::StopCapture()
 {
 	log_instance_->StopCapture();
+}
+
+void LogFileSessionBox::RemoveKeyword(KeywordItem* keyword_item)
+{
+	keyword_filter_list_.remove(keyword_item);
 }
 
 bool LogFileSessionBox::OnClicked(EventArgs* msg)
@@ -123,7 +128,7 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 bool LogFileSessionBox::AddKeyword()
 {
 	KeywordItem* item = new KeywordItem;
-	item->InitControl(keyword_input_->GetText(), keyword_list_);
+	item->InitControl(keyword_input_->GetText(), keyword_list_, this);
 	keyword_filter_list_.push_back(item);
 	keyword_input_->SetText(L"");
 

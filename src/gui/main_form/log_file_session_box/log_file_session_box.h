@@ -4,7 +4,7 @@
 
 using namespace ui;
 
-class KeywordInfo;
+class KeywordItem;
 
 class LogFileSessionBox : public VBox
 {
@@ -17,6 +17,7 @@ public:
 
 	void StartCapture();
 	void StopCapture();
+	void RemoveKeyword(KeywordItem* keyword_item);
 
 	bool OnClicked(EventArgs* msg);
 	void OnFileChangeCallback(const std::wstring& log_file, const std::string& data, bool append = true);
@@ -35,5 +36,5 @@ private:
 
 	// data
 	std::shared_ptr<FileInstance>	log_instance_;			// 文件状态管理
-	std::vector<KeywordItem*>		keyword_filter_list_;
+	std::list<KeywordItem*>			keyword_filter_list_;
 };

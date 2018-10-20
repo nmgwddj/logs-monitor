@@ -2,7 +2,7 @@
 <Window>
 	<VBox>
 		<HBox name="keywords_filter" width="stretch" height="auto" bkcolor="white" padding="0,0,0,8">
-			<HListBox name="keywords_list" width="auto"></HListBox>
+			<HListBox name="keyword_list" width="auto"></HListBox>
 			<Control />
 			<HBox width="auto" height="auto" valign="center">
 				<RichEdit class="simple prompt input" name="keyword_input" font="1" width="120" height="28" padding="5,5,5,5" margin="0,0,8,0"

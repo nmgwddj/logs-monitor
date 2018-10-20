@@ -21,6 +21,11 @@ void FileInstance::StartCapture(FileChangedCallback cb)
 
 bool FileInstance::StopCapture()
 {
+	if (find_handle_)
+	{
+		FindCloseChangeNotification(find_handle_);
+		find_handle_ = nullptr;
+	}
 	stop_capture_ = true;
 	return true;
 }
@@ -46,8 +51,8 @@ bool FileInstance::ClearFile()
 void FileInstance::CaptureFileThread()
 {
 	std::wstring file_path = file_.substr(0, file_.rfind(L"\\"));
-	HANDLE handle = FindFirstChangeNotification(file_.substr(0, file_.rfind(L"\\")).c_str(), FALSE, FILE_NOTIFY_CHANGE_SIZE);
-	if (!handle)
+	find_handle_ = FindFirstChangeNotification(file_.substr(0, file_.rfind(L"\\")).c_str(), FALSE, FILE_NOTIFY_CHANGE_SIZE);
+	if (!find_handle_)
 	{
 		QLOG_ERR(L"Failed to watch directory: {0}") << file_path.c_str();
 		return;
@@ -58,14 +63,19 @@ void FileInstance::CaptureFileThread()
 		if (!file_first_load_ && !stop_capture_)
 		{
 			// 等待文件大小变更的事件
-			DWORD wait = WaitForSingleObject(handle, INFINITE);
-			if (wait == WAIT_OBJECT_0)
+			DWORD wait = WaitForSingleObject(find_handle_, INFINITE);
+			if (wait == WAIT_OBJECT_0 && find_handle_)
 			{
-				if (!FindNextChangeNotification(handle))
+				if (!FindNextChangeNotification(find_handle_))
 				{
-					::FindCloseChangeNotification(handle);
+					::FindCloseChangeNotification(find_handle_);
 					break;
 				}
+			}
+			else
+			{
+				// 返回不是 WAIT_OBJECT_0 或者句柄已经无效
+				break;
 			}
 		}
 

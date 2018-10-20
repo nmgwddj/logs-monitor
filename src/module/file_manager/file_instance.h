@@ -31,6 +31,7 @@ private:
 	DWORD GetFileSizeBytes();
 
 private:
+	HANDLE				find_handle_ = nullptr;		// 文件监控句柄
 	std::wstring		file_;						// 文件完整路径
 	SharedPtrThread		file_capture_thread_;		// 捕获文件变更的线程
 	FileChangedCallback file_changed_callback_;		// 外部传递进来的回调函数

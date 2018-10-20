@@ -40,12 +40,12 @@
 			</Box>
 			<VBox height="stretch" width="auto">
 				<Control />
-				<Button name="btn_hide_loglist" height="30" width="20" cursortype="hand" 
+				<Button name="btn_hide_loglist" height="30" width="10" cursortype="hand" 
 					forenormalimage="hide_loglist_normal.png"
 					hotimage="../public/button/icon_hover.png" 
 					pushedimage="../public/button/icon_pushed.png"
 					disabledimage="hide_loglist_normal.png" />
-				<Button name="btn_show_loglist" height="30" width="20" cursortype="hand" visible="false" 
+				<Button name="btn_show_loglist" height="30" width="10" cursortype="hand" visible="false" 
 					forenormalimage="show_loglist_normal.png"
 					hotimage="../public/button/icon_hover.png" 
 					pushedimage="../public/button/icon_pushed.png"
