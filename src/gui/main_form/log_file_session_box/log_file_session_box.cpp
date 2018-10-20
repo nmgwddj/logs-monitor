@@ -16,43 +16,41 @@ LogFileSessionBox::~LogFileSessionBox()
 
 void LogFileSessionBox::InitControl(const std::wstring& file_path, ListBox* log_file_list)
 {
-	this->AttachBubbledEvent(ui::kEventClick, nbase::Bind(&LogFileSessionBox::OnClicked, this, std::placeholders::_1));
+	GlobalManager::FillBoxWithCache(this, L"main_form/log_file_session_box.xml");
 
-	keyword_rich_edit_ = dynamic_cast<RichEdit*>(FindSubControl(L"keyword_input"));
-	rich_edit_ = dynamic_cast<RichEdit*>(FindSubControl(L"log_edit"));
-	btn_add_keyword_ = dynamic_cast<Button*>(FindSubControl(L"btn_add_keyword"));
+	this->AttachBubbledEvent(kEventClick, nbase::Bind(&LogFileSessionBox::OnClicked, this, std::placeholders::_1));
 
-	file_instance_.reset(new FileInstance(file_path.c_str()));
+	keyword_list_	= dynamic_cast<ListBox*>(FindSubControl(L"keywords_list"));
+	keyword_input_	= dynamic_cast<RichEdit*>(FindSubControl(L"keyword_input"));
+	keyword_add_	= dynamic_cast<Button*>(FindSubControl(L"keyword_add"));
+	log_content_	= dynamic_cast<RichEdit*>(FindSubControl(L"log_content"));
+
+	log_instance_.reset(new FileInstance(file_path.c_str()));
 }
 
 void LogFileSessionBox::Clear()
 {
-	rich_edit_->SetText(L"");
-	file_instance_->ClearFile();
+	log_content_->SetText(L"");
+	log_instance_->ClearFile();
 }
 
 void LogFileSessionBox::StartCapture()
 {
-	file_instance_->StartCapture(nbase::Bind(&LogFileSessionBox::OnFileChangeCallback, this, 
+	log_instance_->StartCapture(nbase::Bind(&LogFileSessionBox::OnFileChangeCallback, this, 
 		std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void LogFileSessionBox::StopCapture()
 {
-	file_instance_->StopCapture();
+	log_instance_->StopCapture();
 }
 
 bool LogFileSessionBox::OnClicked(EventArgs* msg)
 {
 	std::wstring name = msg->pSender->GetName();
-	if (name == L"btn_add_keyword")
+	if (name == L"keyword_add")
 	{
-		KeywordInfo keyword_info;
-		keyword_info.SetTextColor(L"link_blue");
-		keyword_info.SetKeyword(keyword_rich_edit_->GetText());
-		keyword_filter_list_.push_back(keyword_info);
-
-		keyword_rich_edit_->SetText(L"");
+		AddKeyword();
 	}
 
 	return true;
@@ -60,6 +58,11 @@ bool LogFileSessionBox::OnClicked(EventArgs* msg)
 
 void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const std::string& data, bool append /*= true*/)
 {
+	if (!append)
+	{
+		log_content_->SetText(L"");
+	}
+
 	// Convert MBCS to UTF8
 	std::wstring utf8_str;
 	ui::StringHelper::MBCSToUnicode(data, utf8_str, CP_UTF8);
@@ -68,22 +71,22 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 	nbase::StringReplaceAll(kFindString, kReplaceString, utf8_str);
 
 	// 先记录所有关键字的位置
-	std::map<int, KeywordInfo> keywords_pos;
+	std::map<int, KeywordItem*> keywords_pos;
 	for (auto keyword : keyword_filter_list_)
 	{
 		std::size_t begin = 0;
 		while (begin < utf8_str.length())
 		{
-			std::size_t pos = utf8_str.find(keyword.GetKeyword(), begin);
+			std::size_t pos = utf8_str.find(keyword->GetKeyword(), begin);
 			if (std::string::npos != pos)
 			{
 				// 发现关键字
 				std::wstring normal_text = utf8_str.substr(begin, pos - begin);
-				std::wstring color_text = utf8_str.substr(pos, keyword.GetKeyword().length());
+				std::wstring color_text = utf8_str.substr(pos, keyword->GetKeyword().length());
 
 				// 记录关键字位置和要截取的关键字长度，插入到 map 中
 				keywords_pos[pos] = keyword;
-				begin = pos + keyword.GetKeyword().length();
+				begin = pos + keyword->GetKeyword().length();
 			}
 			else
 			{
@@ -97,13 +100,13 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 	for (auto keyword_pos : keywords_pos)
 	{
 		auto begin = keyword_pos.first;
-		auto length = keyword_pos.second.GetKeyword().length();
+		auto length = keyword_pos.second->GetKeyword().length();
 
 		std::wstring normal_text = utf8_str.substr(last_keyword_pos, begin - last_keyword_pos);
 		std::wstring color_text = utf8_str.substr(begin, length);
 
-		rich_edit_->AppendText(normal_text);
-		rich_edit_->AddColorText(color_text, L"link_blue");
+		log_content_->AppendText(normal_text);
+		log_content_->AddColorText(color_text, L"link_blue");
 
 		last_keyword_pos = begin + length;
 	}
@@ -111,8 +114,18 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 	// 将遍历关键字后剩余的文字追加到界面中
 	if (last_keyword_pos < utf8_str.length())
 	{
-		rich_edit_->AppendText(utf8_str.substr(last_keyword_pos, utf8_str.length()));
+		log_content_->AppendText(utf8_str.substr(last_keyword_pos, utf8_str.length()));
 	}
 
-	rich_edit_->EndDown();
+	log_content_->EndDown();
+}
+
+bool LogFileSessionBox::AddKeyword()
+{
+	KeywordItem* item = new KeywordItem;
+	item->InitControl(keyword_input_->GetText(), keyword_list_);
+	keyword_filter_list_.push_back(item);
+	keyword_input_->SetText(L"");
+
+	return true;
 }

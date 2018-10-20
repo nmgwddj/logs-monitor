@@ -68,6 +68,9 @@
     <ClInclude Include="gui\main_form\log_file_session_box\log_file_session_box.h">
       <Filter>gui\main_form\log_file_session_box</Filter>
     </ClInclude>
+    <ClInclude Include="gui\main_form\log_file_session_box\keyword_item.h">
+      <Filter>gui\main_form\log_file_session_box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -92,6 +95,9 @@
       <Filter>gui\main_form\log_file_list</Filter>
     </ClCompile>
     <ClCompile Include="gui\main_form\log_file_session_box\log_file_session_box.cpp">
+      <Filter>gui\main_form\log_file_session_box</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\main_form\log_file_session_box\keyword_item.cpp">
       <Filter>gui\main_form\log_file_session_box</Filter>
     </ClCompile>
   </ItemGroup>

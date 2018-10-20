@@ -99,8 +99,6 @@ void MainForm::OnFileSelected(BOOL result, std::wstring file_path)
 		}
 
 		LogFileSessionBox* log_file_session_box = new LogFileSessionBox;
-		ui::GlobalManager::FillBoxWithCache(log_file_session_box, L"main_form/log_file_session_box.xml");
-
 		log_file_session_box->InitControl(file_path, list_logs_);
 
 		// 将原来列表中所有监控的 richedit 都设置为隐藏
