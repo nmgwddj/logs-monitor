@@ -68,7 +68,10 @@ void FileInstance::CaptureFileThread()
 			{
 				if (!FindNextChangeNotification(find_handle_))
 				{
-					::FindCloseChangeNotification(find_handle_);
+					if (find_handle_)
+					{
+						::FindCloseChangeNotification(find_handle_);
+					}
 					break;
 				}
 			}
