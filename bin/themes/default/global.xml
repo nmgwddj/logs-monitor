@@ -93,6 +93,13 @@
     <TextColor name="headimage_bk_color" value="#ffececec"/>
     <TextColor name="icongray" value="#ffa0a0a0"/>
     <TextColor name="iconfadegray" value="#88a0a0a0"/>
+	
+	<TextColor name="keyword_blue" value="#ff1890ff"/>
+	<TextColor name="keyword_green" value="#ff52c41a"/>
+	<TextColor name="keyword_yellow" value="#fffadb14"/>
+	<TextColor name="keyword_red" value="#fff5222d"/>
+	<TextColor name="keyword_orange" value="#fff98b16"/>
+	<TextColor name="keyword_purple" value="#ff722ed1"/>
 
     <!--背景色值，完全不透明-->
     <TextColor name="bk_main_wnd_title" value="#ff238efa"/>

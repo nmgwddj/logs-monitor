@@ -13,13 +13,20 @@ public:
 
 	void InitControl(const std::wstring& keyword, ListBox* keyword_list, LogFileSessionBox* parent_box);
 	std::wstring& GetKeyword() { return keyword_; }
+	std::wstring& GetColor() { return color_; }
 
-	bool OnClicked(EventArgs* msg);
+	
 
 private:
-	std::wstring	keyword_;
-	std::wstring	color_;
-	bool			color_line_ = false;
+	bool OnClicked(EventArgs* msg);
+
+	void ChooseColor();
+
+private:
+	std::wstring		keyword_;
+	std::wstring		color_;
+	bool				color_line_ = false;
+	std::list<std::wstring> color_list_;
 
 	ListBox*			keyword_list_ = nullptr;
 	LogFileSessionBox*	parent_box_ = nullptr;

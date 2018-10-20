@@ -20,7 +20,8 @@ public:
 	void RemoveKeyword(KeywordItem* keyword_item);
 
 	bool OnClicked(EventArgs* msg);
-	void OnFileChangeCallback(const std::wstring& log_file, const std::string& data, bool append = true);
+	bool OnKeyDown(EventArgs* msg);
+	void OnFileChangedCallback(const std::wstring& log_file, const std::string& data, bool append = true);
 
 	static const LPCTSTR kFindString;
 	static const LPCTSTR kReplaceString;

@@ -19,6 +19,7 @@ void LogFileSessionBox::InitControl(const std::wstring& file_path, ListBox* log_
 	GlobalManager::FillBoxWithCache(this, L"main_form/log_file_session_box.xml");
 
 	this->AttachBubbledEvent(kEventClick, nbase::Bind(&LogFileSessionBox::OnClicked, this, std::placeholders::_1));
+	this->AttachBubbledEvent(kEventReturn, nbase::Bind(&LogFileSessionBox::OnKeyDown, this, std::placeholders::_1));
 
 	keyword_list_	= dynamic_cast<ListBox*>(FindSubControl(L"keyword_list"));
 	keyword_input_	= dynamic_cast<RichEdit*>(FindSubControl(L"keyword_input"));
@@ -36,7 +37,7 @@ void LogFileSessionBox::Clear()
 
 void LogFileSessionBox::StartCapture()
 {
-	log_instance_->StartCapture(nbase::Bind(&LogFileSessionBox::OnFileChangeCallback, this, 
+	log_instance_->StartCapture(nbase::Bind(&LogFileSessionBox::OnFileChangedCallback, this, 
 		std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
@@ -61,7 +62,18 @@ bool LogFileSessionBox::OnClicked(EventArgs* msg)
 	return true;
 }
 
-void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const std::string& data, bool append /*= true*/)
+bool LogFileSessionBox::OnKeyDown(EventArgs* msg)
+{
+	std::wstring name = msg->pSender->GetName();
+	if (name == L"keyword_input")
+	{
+		AddKeyword();
+	}
+
+	return 0;
+}
+
+void LogFileSessionBox::OnFileChangedCallback(const std::wstring& log_file, const std::string& data, bool append /*= true*/)
 {
 	if (!append)
 	{
@@ -106,12 +118,13 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 	{
 		auto begin = keyword_pos.first;
 		auto length = keyword_pos.second->GetKeyword().length();
+		auto color = keyword_pos.second->GetColor();
 
 		std::wstring normal_text = utf8_str.substr(last_keyword_pos, begin - last_keyword_pos);
 		std::wstring color_text = utf8_str.substr(begin, length);
 
 		log_content_->AppendText(normal_text);
-		log_content_->AddColorText(color_text, L"link_blue");
+		log_content_->AddColorText(color_text, color);
 
 		last_keyword_pos = begin + length;
 	}
@@ -127,8 +140,14 @@ void LogFileSessionBox::OnFileChangeCallback(const std::wstring& log_file, const
 
 bool LogFileSessionBox::AddKeyword()
 {
+	std::wstring keyword = keyword_input_->GetText();
+	if (keyword.size() == 0)
+	{
+		return false;
+	}
+
 	KeywordItem* item = new KeywordItem;
-	item->InitControl(keyword_input_->GetText(), keyword_list_, this);
+	item->InitControl(keyword, keyword_list_, this);
 	keyword_filter_list_.push_back(item);
 	keyword_input_->SetText(L"");
 
