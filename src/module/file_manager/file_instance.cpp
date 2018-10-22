@@ -64,7 +64,7 @@ void FileInstance::CaptureFileThread()
 		{
 			// 等待文件大小变更的事件
 			DWORD wait = WaitForSingleObject(find_handle_, INFINITE);
-			if (wait == WAIT_OBJECT_0 && find_handle_)
+			if (wait == WAIT_OBJECT_0)
 			{
 				if (!FindNextChangeNotification(find_handle_))
 				{

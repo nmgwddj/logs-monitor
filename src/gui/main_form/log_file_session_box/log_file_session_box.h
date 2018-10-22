@@ -20,7 +20,7 @@ public:
 	void RemoveKeyword(KeywordItem* keyword_item);
 
 	bool OnClicked(EventArgs* msg);
-	bool OnKeyDown(EventArgs* msg);
+	bool OnReturnKeyDown(EventArgs* msg);
 	void OnFileChangedCallback(const std::wstring& log_file, const std::string& data, bool append = true);
 
 	static const LPCTSTR kFindString;
@@ -34,6 +34,8 @@ private:
 	RichEdit*	log_content_ = nullptr;
 	ListBox*	keyword_list_ = nullptr;
 	Button*		keyword_add_ = nullptr;
+	Button*		start_capture_ = nullptr;
+	Button*		stop_capture_ = nullptr;
 
 	// data
 	std::shared_ptr<FileInstance>	log_instance_;			// 文件状态管理

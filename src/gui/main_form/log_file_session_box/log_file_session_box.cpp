@@ -19,12 +19,14 @@ void LogFileSessionBox::InitControl(const std::wstring& file_path, ListBox* log_
 	GlobalManager::FillBoxWithCache(this, L"main_form/log_file_session_box.xml");
 
 	this->AttachBubbledEvent(kEventClick, nbase::Bind(&LogFileSessionBox::OnClicked, this, std::placeholders::_1));
-	this->AttachBubbledEvent(kEventReturn, nbase::Bind(&LogFileSessionBox::OnKeyDown, this, std::placeholders::_1));
+	this->AttachBubbledEvent(kEventReturn, nbase::Bind(&LogFileSessionBox::OnReturnKeyDown, this, std::placeholders::_1));
 
 	keyword_list_	= dynamic_cast<ListBox*>(FindSubControl(L"keyword_list"));
 	keyword_input_	= dynamic_cast<RichEdit*>(FindSubControl(L"keyword_input"));
 	keyword_add_	= dynamic_cast<Button*>(FindSubControl(L"keyword_add"));
 	log_content_	= dynamic_cast<RichEdit*>(FindSubControl(L"log_content"));
+	start_capture_	= dynamic_cast<Button*>(FindSubControl(L"start_capture"));
+	stop_capture_	= dynamic_cast<Button*>(FindSubControl(L"stop_capture"));
 
 	log_instance_.reset(new FileInstance(file_path.c_str()));
 }
@@ -58,11 +60,23 @@ bool LogFileSessionBox::OnClicked(EventArgs* msg)
 	{
 		AddKeyword();
 	}
+	else if (name == L"start_capture")
+	{
+		StartCapture();
+		stop_capture_->SetVisible(true);
+		start_capture_->SetVisible(false);
+	}
+	else if (name == L"stop_capture")
+	{
+		StopCapture();
+		start_capture_->SetVisible(true);
+		stop_capture_->SetVisible(false);
+	}
 
 	return true;
 }
 
-bool LogFileSessionBox::OnKeyDown(EventArgs* msg)
+bool LogFileSessionBox::OnReturnKeyDown(EventArgs* msg)
 {
 	std::wstring name = msg->pSender->GetName();
 	if (name == L"keyword_input")

@@ -2,6 +2,17 @@
 <Window>
 	<VBox>
 		<HBox name="keywords_filter" width="stretch" height="auto" bkcolor="white" padding="0,0,0,8">
+			<Button name="start_capture" width="28" height="28" valign="center" tooltiptext="开始监控文件" margin="0,0,5" visible="false"
+						forenormalimage="start_capture.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="start_capture.png" />
+			<Button name="stop_capture" width="28" height="28" valign="center" tooltiptext="暂停监控文件" margin="0,0,5" visible="false"
+						forenormalimage="stop_capture.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="stop_capture.png" />
+			<Control class="splitline_ver_level1" margin="5,0,10" visible="false"/>
 			<HListBox name="keyword_list" width="auto"></HListBox>
 			<Control />
 			<HBox width="auto" height="auto" valign="center">
