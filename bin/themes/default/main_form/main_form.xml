@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window size="1280,720" mininfo="1280,720" caption="0,0,0,35" >
+	<VBox bkcolor="bk_wnd_lightcolor">
+		<!-- 标题栏 -->
+		<HBox height="35" width="stretch" padding="8,0,8" bkcolor="darkcolor">
+			<Control width="auto" height="auto" valign="center" bkimage="logo.png" margin="0,0,5"/>
+			<Label text="Logs Monitor - Tail for Windows" normaltextcolor="white" valign="center"/>
+			<Control width="stretch"/>
+			<Button class="btn_wnd_min" name="btn_wnd_min" valign="center"/>
+			<Button class="btn_wnd_max" name="btn_wnd_max" valign="center"/>
+			<Button class="btn_wnd_restore" name="btn_wnd_restore" valign="center" visible="false"/>
+			<Button class="btn_wnd_close" name="btn_close" valign="center"/>
+		</HBox>
+		<HBox padding="8,8,8,8">
+			<!-- 日志列表 -->
+			<Box name="box_side_bar" width="260" fadeinoutxfromleft="true">
+				<VListBox name="list_logs" width="stretch" bkcolor="bk_gray"></VListBox>
+				<HBox valign="bottom" width="stretch" height="auto" padding="5,5,5,5">
+					<Button name="btn_new_file" width="24" height="24" valign="center" tooltiptext="添加要监控的日志文件" margin="0,0,5" 
+						forenormalimage="new_file_normal.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="new_file_normal.png" />
+					<Button name="btn_refresh_all" width="24" height="24" valign="center" tooltiptext="清空所有监控的日志文件"	 margin="0,0,5" 
+						forenormalimage="refresh_all_normal.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="refresh_all_normal.png" />
+					<Button name="btn_remove_all" width="24" height="24" valign="center" tooltiptext="从列表中移除所有监控的日志文件"	margin="0,0,5" 
+						forenormalimage="remove_all_normal.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="remove_all_normal.png" />
+					<Button name="btn_settings" width="24" height="24" valign="center" tooltiptext="打开工具设置"	 visible="false" margin="0,0,5" 
+						forenormalimage="settings_normal.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="settings_normal.png" />
+				</HBox>
+			</Box>
+			<VBox height="stretch" width="auto">
+				<Control />
+				<Button name="btn_hide_loglist" height="30" width="10" cursortype="hand" 
+					forenormalimage="hide_loglist_normal.png"
+					hotimage="../public/button/icon_hover.png" 
+					pushedimage="../public/button/icon_pushed.png"
+					disabledimage="hide_loglist_normal.png" />
+				<Button name="btn_show_loglist" height="30" width="10" cursortype="hand" visible="false" 
+					forenormalimage="show_loglist_normal.png"
+					hotimage="../public/button/icon_hover.png" 
+					pushedimage="../public/button/icon_pushed.png"
+					disabledimage="show_loglist_normal.png" />
+				<Control />
+			</VBox>
+			<!-- 日志内容 -->
+			<Box name="box_container" bkcolor="bk_gray">
+				<Box name="empty_background">
+					<HBox width="auto" height="auto" valign="center" halign="center">
+						<Control width="auto" height="auto" valign="center" bkimage="empty.png" margin="0,0,15" />
+						<Label font="2" valign="center" normaltextcolor="gray" text="还没有添加任何要监控的日志文件" />
+					</HBox>
+				</Box>
+			</Box>
+		</HBox>
+	</VBox>
+</Window>

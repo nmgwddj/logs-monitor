@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+	<ListContainerElement name="keyword_item" width="auto" height="28" valign="center" margin="0,0,8">
+		<BubbledEvent type="mouseenter" receiver="./btn_colors ./btn_remove" applyattribute="visible=&quot;true&quot;" />
+		<BubbledEvent type="mouseleave" receiver="./btn_colors ./btn_remove" applyattribute="visible=&quot;false&quot;" />
+		<HBox width="auto" height="auto" valign="center">
+			<Label name="label_keyword" width="auto" height="auto" valign="center" normaltextcolor="white" textpadding="8,0,8,0" />
+			<Button name="btn_colors" width="auto" height="auto" valign="center" bkimage="keywords/btn_colors.png" margin="0,0,2" visible="false" cursortype="hand"/>
+			<Button name="btn_remove" width="auto" height="auto" valign="center" bkimage="keywords/btn_remove.png" margin="0,0,2" visible="false" cursortype="hand"/>
+		</HBox>
+	</ListContainerElement>
+</Window>

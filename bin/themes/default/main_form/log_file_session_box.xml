@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+	<VBox>
+		<HBox name="keywords_filter" width="stretch" height="auto" bkcolor="white" padding="0,0,0,8">
+			<Button name="start_capture" width="28" height="28" valign="center" tooltiptext="开始监控文件" margin="0,0,5" visible="false"
+						forenormalimage="start_capture.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="start_capture.png" />
+			<Button name="stop_capture" width="28" height="28" valign="center" tooltiptext="暂停监控文件" margin="0,0,5" visible="false"
+						forenormalimage="stop_capture.png" 
+						hotimage="../public/button/icon_hover.png" 
+						pushedimage="../public/button/icon_pushed.png"
+						disabledimage="stop_capture.png" />
+			<Control class="splitline_ver_level1" margin="5,0,10" visible="false"/>
+			<HBox name="global_message">
+				<Control width="auto" height="auto" bkimage="global_message_icon.png" valign="center" margin="0,0,5"/>
+				<Label text="右侧添加关键字来高亮你关心的内容~" valign="center"/>
+			</HBox>
+			<HListBox name="keyword_list" width="auto"></HListBox>
+			<Control />
+			<HBox width="auto" height="auto" valign="center">
+				<RichEdit class="simple prompt input" name="keyword_input" font="1" width="120" height="28" padding="5,5,5,5" margin="0,0,8,0"
+					valign="top" prompttext="添加要高亮的文本" />
+				<Button class="btn_global_green_80x30" name="keyword_add" width="60" height="28" valign="top" text="添加"/>
+			</HBox>	
+		</HBox>
+
+		<RichEdit class="prompt" name="log_content" bkcolor="bk_gray" width="stretch" height="stretch" font="1" multiline="true" vscrollbar="true" hscrollbar="true" autovscroll="true" readonly="true" 
+			normaltextcolor="darkcolor" padding="5,5,5,5" wantreturnmsg="true" rich="true"/>
+
+	</VBox>
+</Window>
